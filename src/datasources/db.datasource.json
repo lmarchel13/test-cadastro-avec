@@ -3,8 +3,8 @@
   "connector": "postgresql",
   "url": "",
   "host": "localhost",
-  "port": 5432,
+  "port": 1000,
   "user": "postgres",
   "password": "131091",
-  "database": "Cadastro"
+  "database": "cadastro"
 }

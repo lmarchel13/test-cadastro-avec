@@ -6,6 +6,7 @@ export {ApiServerApplication};
 export async function main(options: ApplicationConfig = {}) {
   const app = new ApiServerApplication(options);
   await app.boot();
+  await app.migrateSchema();
   await app.start();
 
   const url = app.restServer.url;

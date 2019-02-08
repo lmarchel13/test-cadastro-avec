@@ -45,7 +45,9 @@
     "src"
   ],
   "dependencies": {
+    "@loopback/authentication": "^1.0.11",
     "@loopback/boot": "^1.0.11",
+    "@loopback/cli": "^1.5.2",
     "@loopback/context": "^1.5.0",
     "@loopback/core": "^1.1.5",
     "@loopback/openapi-v3": "^1.2.0",
@@ -53,9 +55,12 @@
     "@loopback/rest": "^1.5.4",
     "@loopback/rest-explorer": "^1.1.7",
     "@loopback/service-proxy": "^1.0.7",
+    "async-redis": "^1.1.5",
     "axios": "^0.18.0",
+    "loopback-connector-kv-redis": "^3.0.1",
     "loopback-connector-postgresql": "^3.5.1",
-    "nodemon": "^1.18.9"
+    "nodemon": "^1.18.9",
+    "redis": "^2.8.0"
   },
   "devDependencies": {
     "@loopback/build": "^1.2.1",

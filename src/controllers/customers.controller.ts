@@ -18,12 +18,24 @@ import {
 } from '@loopback/rest';
 import {Customers} from '../models';
 import {CustomersRepository} from '../repositories';
+import {CachememRepository} from '../repositories';
 
 export class CustomersController {
   constructor(
     @repository(CustomersRepository)
-    public customersRepository : CustomersRepository,
+    public customersRepository: CustomersRepository,
+    @repository(CachememRepository)
+    public cacheRepository: CachememRepository,
   ) {}
+
+  async insertRedis(k: string, v: string) {
+    console.log('Inserindo dados no Redis...');
+    this.cacheRepository.set(k, {value: v});
+    const _ = this.cacheRepository.get(k);
+    if (_) {
+      console.log('Dados inseridos com sucesso..');
+    }
+  }
 
   @post('/customers', {
     responses: {
@@ -34,6 +46,8 @@ export class CustomersController {
     },
   })
   async create(@requestBody() customers: Customers): Promise<Customers> {
+    const key = `customers:${customers.id_customer}`;
+    this.cacheRepository.set(key, {value: customers.customer_name});
     return await this.customersRepository.create(customers);
   }
 
@@ -64,7 +78,8 @@ export class CustomersController {
     },
   })
   async find(
-    @param.query.object('filter', getFilterSchemaFor(Customers)) filter?: Filter,
+    @param.query.object('filter', getFilterSchemaFor(Customers))
+    filter?: Filter,
   ): Promise<Customers[]> {
     return await this.customersRepository.find(filter);
   }
@@ -121,6 +136,8 @@ export class CustomersController {
     @param.path.number('id') id: number,
     @requestBody() customers: Customers,
   ): Promise<void> {
+    const key = `customers:${id}`;
+    this.cacheRepository.set(key, {value: customers.customer_name});
     await this.customersRepository.replaceById(id, customers);
   }
 
@@ -132,6 +149,8 @@ export class CustomersController {
     },
   })
   async deleteById(@param.path.number('id') id: number): Promise<void> {
+    const key = `customers:${id}`;
+    this.cacheRepository.delete(key);
     await this.customersRepository.deleteById(id);
   }
 }

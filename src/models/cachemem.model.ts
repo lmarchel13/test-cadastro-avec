@@ -1,22 +1,20 @@
 import {Entity, model, property} from '@loopback/repository';
 
 @model()
-export class Professionals extends Entity {
+export class Cachemem extends Entity {
   @property({
-    type: 'number',
+    type: 'string',
     id: true,
     required: true,
   })
-  id_pro: number;
-
+  value: string;
+  /*
   @property({
     type: 'string',
-    required: true,
   })
-  pro_name: string;
-
-
-  constructor(data?: Partial<Professionals>) {
+  value?: string;
+*/
+  constructor(data?: Partial<Cachemem>) {
     super(data);
   }
 }
